@@ -4,6 +4,7 @@ from sympy import symbols, diff, sympify
 from sympy.parsing.sympy_parser import (parse_expr, standard_transformations, implicit_multiplication_application)
 import numpy as np
 from sympy import integrate
+from sympy import limit
 
 transformations = standard_transformations + (implicit_multiplication_application,)
 
@@ -54,6 +55,29 @@ def resolver_integral(equacao: str):
         expressao = parse_expr(equacao, transformations=transformations)
 
         resultado = integrate(expressao, x)
+
+        return {
+            "status": "sucesso",
+            "resultado": str(resultado)
+        }
+
+    except Exception as e:
+        return {"status": "erro", "mensagem": str(e)}
+    
+@app.get("/limite")
+def resolver_limite(equacao: str, ponto: str):
+    try:
+        x = symbols('x')
+
+        equacao = equacao.replace("^", "**")
+        expressao = parse_expr(equacao, transformations=transformations)
+
+        from sympy import simplify
+        expressao = simplify(expressao)
+
+        ponto = sympify(ponto)
+
+        resultado = limit(expressao, x, ponto)
 
         return {
             "status": "sucesso",
