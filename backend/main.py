@@ -1,7 +1,10 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from sympy import symbols, diff, sympify
+from sympy.parsing.sympy_parser import (parse_expr, standard_transformations, implicit_multiplication_application)
 import numpy as np
+
+transformations = standard_transformations + (implicit_multiplication_application,)
 
 app = FastAPI()
 
@@ -18,7 +21,8 @@ app.add_middleware(
 def resolver_derivada(equacao: str):
     try:
         x = symbols('x')
-        expressao = sympify(equacao)
+        equacao = equacao.replace("^", "**")
+        expressao = parse_expr(equacao, transformations=transformations)
         derivada = diff(expressao, x)
 
         # gera valores para o gráfico
