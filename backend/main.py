@@ -1,12 +1,30 @@
-from sympy import symbols, diff
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from sympy import symbols, diff, sympify
 
-# Definimos que 'x' é a nossa variável simbólica
-x = symbols('x')
+app = FastAPI()
 
-# A função que queremos derivar: x ao quadrado + 5x
-expressao = x**2 + 5*x
+# --- ESSAS LINHAS LIBERAM O ACESSO ---
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"], # Permite que qualquer site acesse (ideal para teste)
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+# -------------------------------------
 
-# A mágica acontece aqui:
-resultado = diff(expressao, x)
-
-print(f"A derivada de {expressao} é: {resultado}")
+@app.get("/resolver/{equacao}")
+def resolver_derivada(equacao: str):
+    try:
+        x = symbols('x')
+        # Converte o texto para matemática
+        expressao = sympify(equacao)
+        resultado = diff(expressao, x)
+        
+        return {
+            "status": "sucesso",
+            "original": str(expressao),
+            "derivada": str(resultado)
+        }
+    except Exception as e:
+        return {"status": "erro", "mensagem": str(e)}
