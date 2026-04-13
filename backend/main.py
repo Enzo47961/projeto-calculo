@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from sympy import symbols, diff, sympify
 from sympy.parsing.sympy_parser import (parse_expr, standard_transformations, implicit_multiplication_application)
 import numpy as np
+from sympy import integrate
 
 transformations = standard_transformations + (implicit_multiplication_application,)
 
@@ -39,6 +40,24 @@ def resolver_derivada(equacao: str):
             "x": list(x_vals),
             "y": y_vals,
             "y_deriv": y_deriv
+        }
+
+    except Exception as e:
+        return {"status": "erro", "mensagem": str(e)}
+    
+@app.get("/integrar/{equacao}")
+def resolver_integral(equacao: str):
+    try:
+        x = symbols('x')
+
+        equacao = equacao.replace("^", "**")
+        expressao = parse_expr(equacao, transformations=transformations)
+
+        resultado = integrate(expressao, x)
+
+        return {
+            "status": "sucesso",
+            "resultado": str(resultado)
         }
 
     except Exception as e:
