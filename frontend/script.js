@@ -62,18 +62,49 @@ async function calcular() {
                 x: dados.x,
                 y: dados.y,
                 mode: 'lines',
-                name: 'f(x)'
+                name: 'f(x)',
+                line: {
+                    width: 3,
+                    shape: 'spline'
+                }
             };
 
             const trace2 = {
                 x: dados.x,
                 y: dados.y_deriv,
                 mode: 'lines',
-                name: "f'(x)"
+                name: "f'(x)",
+                line: {
+                    width: 3,
+                    dash: 'dot',
+                    shape: 'spline'
+                }
             };
 
             const layout = {
-                title: "Função e Derivada"
+                title: {
+                    text: "Função e Derivada",
+                    font: { color: "white" }
+                },
+
+                paper_bgcolor: "#0f0f1a",
+                plot_bgcolor: "#0f0f1a",
+
+                xaxis: {
+                    gridcolor: "rgba(255,255,255,0.1)",
+                    zerolinecolor: "rgba(255,255,255,0.3)",
+                    color: "white"
+                },
+
+                yaxis: {
+                    gridcolor: "rgba(255,255,255,0.1)",
+                    zerolinecolor: "rgba(255,255,255,0.3)",
+                    color: "white"
+                },
+
+                legend: {
+                    font: { color: "white" }
+                }
             };
 
             Plotly.newPlot('grafico', [trace1, trace2], layout);
