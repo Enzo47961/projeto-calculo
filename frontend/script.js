@@ -1,13 +1,42 @@
+let modoAtual = "derivada";
+
+function setModo(modo) {
+    modoAtual = modo;
+
+    const inputPonto = document.getElementById("ponto");
+
+    // Mostrar/esconder input de ponto
+    if (modo === "limite") {
+        inputPonto.style.display = "block";
+    } else {
+        inputPonto.style.display = "none";
+    }
+
+    // 🔥 NOVO: destacar botão ativo
+    const botoes = document.querySelectorAll(".modo-btn");
+
+    botoes.forEach(btn => {
+        btn.classList.remove("ativo");
+    });
+
+    botoes.forEach(btn => {
+        if (btn.innerText.toLowerCase() === modo) {
+            btn.classList.add("ativo");
+        }
+    });
+}
+
 async function calcular() {
     const equacao = document.getElementById('equacao').value;
     const divResultado = document.getElementById('resultado');
-    
+    document.getElementById('grafico').innerHTML = "";
+
     if (!equacao) {
         alert("Digite uma equação!");
         return;
     }
 
-    divResultado.innerText = "Calculando...";
+    divResultado.innerHTML = "⏳ Calculando...";
 
     try {
         const resposta = await fetch(
@@ -18,9 +47,15 @@ async function calcular() {
 
         if (dados.status === "sucesso") {
 
-            divResultado.innerHTML = 
-            `f(x) = \\(${dados.original}\\)<br>
-            f'(x) = \\(${dados.derivada}\\)`;
+            divResultado.innerHTML = `
+            <div>
+                <p><strong>Função:</strong></p>
+                <p>\\(${dados.original}\\)</p>
+
+                <p><strong>Derivada:</strong></p>
+                <p>\\(${dados.derivada}\\)</p>
+            </div>
+            `;
             MathJax.typesetPromise([divResultado]);
 
             const trace1 = {
@@ -77,8 +112,12 @@ async function integrar() {
 
         if (dados.status === "sucesso") {
 
-            divResultado.innerHTML = 
-            `\\(\\int f(x)dx = ${dados.resultado}\\)`;
+            divResultado.innerHTML = `
+            <div>
+                <p><strong>Integral:</strong></p>
+                <p>\\(\\int ${dados.original} \\, dx = ${dados.resultado}\\)</p>
+            </div>
+            `;
             MathJax.typesetPromise([divResultado]);
         } else {
             divResultado.innerHTML = 
@@ -112,8 +151,12 @@ async function calcularLimite() {
 
         if (dados.status === "sucesso") {
             
-            divResultado.innerHTML =
-            `\\(\\lim_{x \\to ${ponto}} f(x) = ${dados.resultado}\\)`;
+            divResultado.innerHTML = `
+            <div>
+                <p><strong>Limite:</strong></p>
+                <p>\\(\\lim_{x \\to ${ponto}} ${dados.original} = ${dados.resultado}\\)</p>
+            </div>
+            `;
             MathJax.typesetPromise([divResultado]);
         } else {
             divResultado.innerHTML =
@@ -125,3 +168,17 @@ async function calcularLimite() {
             `<span style="color: red;">Erro ao conectar com o servidor.</span>`;
     }
 }
+
+function executar() {
+    if (modoAtual === "derivada") {
+        calcular();
+    } else if (modoAtual === "integral") {
+        integrar();
+    } else if (modoAtual === "limite") {
+        calcularLimite();
+    }
+}
+
+window.onload = () => {
+    setModo("derivada");
+};

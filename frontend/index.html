@@ -68,6 +68,10 @@
     #grafico {
         margin-top: 20px;
     }
+
+    .modo-btn.ativo {
+    background: #22c55e;
+    }
     </style>
     <script>
     window.MathJax = {
@@ -86,14 +90,16 @@
     <div class="container">
         <h1>Calculadora de Cálculo</h1>
 
+        <div id="modos">
+            <button class="modo-btn" onclick="setModo('derivada')">Derivada</button>
+            <button class="modo-btn" onclick="setModo('integral')">Integral</button>
+            <button class="modo-btn" onclick="setModo('limite')">Limite</button>
+        </div>
+
         <input type="text" id="equacao" placeholder="Ex: x^2 + 5x">
         <input type="text" id="ponto" placeholder="Ponto (para limite)">
 
-        <div>
-            <button onclick="calcular()">Derivar</button>
-            <button onclick="integrar()">Integrar</button>
-            <button onclick="calcularLimite()">Limite</button>
-        </div>
+        <button onclick="executar()">Calcular</button>
 
         <div id="resultado"></div>
 
