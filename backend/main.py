@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from sympy import symbols, diff, sympify
+from sympy import symbols, diff, sympify, solve
 from sympy.parsing.sympy_parser import (parse_expr, standard_transformations, implicit_multiplication_application)
 import numpy as np
 from sympy import integrate
@@ -86,6 +86,76 @@ def resolver_limite(equacao: str, ponto: str):
             "status": "sucesso",
             "original": latex(expressao),
             "resultado": latex(resultado)
+        }
+
+    except Exception as e:
+        return {"status": "erro", "mensagem": str(e)}
+
+@app.get("/explorar/{equacao}")
+def explorar(equacao: str):
+    try:
+        x = symbols('x')
+
+        equacao = equacao.replace("^", "**")
+        expressao = parse_expr(equacao, transformations=transformations)
+
+        # 1. derivada e segunda derivada
+        f1 = diff(expressao, x)
+        f2 = diff(f1, x)
+
+        # 3. pontos críticos (f'(x)=0)
+        criticos = solve(f1, x)
+
+         # 2. raízes da função
+        raizes = solve(expressao, x)
+
+        # 👇 ADICIONE ISSO AQUI
+        raizes_num = [float(r.evalf()) for r in raizes if r.is_real]
+
+        # 4. classificação (máx / mín)
+        classificacao = []
+
+        for p in criticos:
+            val = f2.subs(x, p)
+
+            if val > 0:
+                classificacao.append("mínimo")
+            elif val < 0:
+                classificacao.append("máximo")
+            else:
+                classificacao.append("indefinido")
+
+        pontos_criticos = [
+            {
+                "x": float(p.evalf()),
+                "y": float(expressao.subs(x, p).evalf())
+            }
+            for p in criticos if p.is_real
+        ]
+
+        # 6. gráfico base
+        f = lambda val: float(expressao.subs(x, val))
+
+        x_vals = np.linspace(-10, 10, 200)
+        y_vals = [f(val) for val in x_vals]
+
+        return {
+            "status": "sucesso",
+
+            "funcao": latex(expressao),
+            "derivada": latex(f1),
+            "segunda_derivada": latex(f2),
+
+            "raizes": [latex(r) for r in raizes],
+            "raizes_num": raizes_num,
+            "criticos": [latex(c) for c in criticos],
+
+            "pontos_criticos": pontos_criticos,
+
+            "classificacao": classificacao,
+
+            "x": list(x_vals),
+            "y": y_vals
         }
 
     except Exception as e:
