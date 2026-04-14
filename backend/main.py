@@ -5,6 +5,7 @@ from sympy.parsing.sympy_parser import (parse_expr, standard_transformations, im
 import numpy as np
 from sympy import integrate
 from sympy import limit
+from sympy import latex
 
 transformations = standard_transformations + (implicit_multiplication_application,)
 
@@ -37,7 +38,8 @@ def resolver_derivada(equacao: str):
 
         return {
             "status": "sucesso",
-            "derivada": str(derivada),
+            "original": latex(expressao),
+            "derivada": latex(derivada),
             "x": list(x_vals),
             "y": y_vals,
             "y_deriv": y_deriv
@@ -58,7 +60,8 @@ def resolver_integral(equacao: str):
 
         return {
             "status": "sucesso",
-            "resultado": str(resultado)
+            "original": latex(expressao),
+            "resultado": latex(resultado)
         }
 
     except Exception as e:
@@ -81,7 +84,8 @@ def resolver_limite(equacao: str, ponto: str):
 
         return {
             "status": "sucesso",
-            "resultado": str(resultado)
+            "original": latex(expressao),
+            "resultado": latex(resultado)
         }
 
     except Exception as e:
