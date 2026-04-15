@@ -15,12 +15,24 @@ function setModo(modo) {
     modoAtual = modo;
 
     const inputPonto = document.getElementById("ponto");
+    const inputA = document.getElementById("ponto_a"); // Novo
+    const inputB = document.getElementById("ponto_b"); // Novo
+    
 
     // Mostrar/esconder input de ponto
     if (modo === "limite") {
         inputPonto.style.display = "block";
     } else {
         inputPonto.style.display = "none";
+    }
+
+        // Mostrar/esconder inputs de integral (Definida)
+    if (modo === "integral") {
+        inputA.style.display = "block";
+        inputB.style.display = "block";
+    } else {
+        inputA.style.display = "none";
+        inputB.style.display = "none";
     }
 
     // 🔥 NOVO: destacar botão ativo
@@ -134,6 +146,8 @@ async function calcular() {
 
 async function integrar() {
     const equacao = document.getElementById('equacao').value;
+    const a = document.getElementById('ponto_a')?.value || ""; // Limite inferior
+    const b = document.getElementById('ponto_b')?.value || ""; // Limite superior
     const divResultado = document.getElementById('resultado');
 
     document.getElementById('grafico').innerHTML = "";
@@ -147,12 +161,15 @@ async function integrar() {
 
     try {
         const resposta = await fetch(
-            `https://projeto-calculo.onrender.com/integrar?equacao=${encodeURIComponent(equacao)}`
+            `https://projeto-calculo.onrender.com/integrar?equacao=${encodeURIComponent(equacao)}&a=${a}&b=${b}`
         );
 
         const dados = await resposta.json();
 
         if (dados.status === "sucesso") {
+
+            // Se houver limites, mostramos o símbolo da integral definida
+            let simboloIntegral = (a && b) ? `\\int_{${a}}^{${b}}` : `\\int`;
 
             divResultado.innerHTML = `
             <div>

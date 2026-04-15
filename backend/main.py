@@ -33,12 +33,19 @@ app.add_middleware(
     allow_headers=["*"],
 )
 # -------------------------------------
+def limpar_equacao(equacao: str):
+    # Transforma em minúsculo (resolve o X maiúsculo)
+    # Troca "sen" por "sin"
+    # Troca "^" por "**"
+    return equacao.lower().replace("sen", "sin").replace("^", "**")
+
+
 
 @app.get("/resolver")
 def resolver_derivada(equacao: str):
     try:
         x = symbols('x')
-        equacao = equacao.replace("^", "**")
+        equacao = limpar_equacao(equacao) 
         expressao = parse_expr(equacao, transformations=transformations)
         derivada = diff(expressao, x)
 
@@ -74,14 +81,19 @@ def resolver_derivada(equacao: str):
         return {"status": "erro", "mensagem": str(e)}
     
 @app.get("/integrar")
-def resolver_integral(equacao: str):
+def resolver_integral(equacao: str, a: str = None, b: str = None):
     try:
         x = symbols('x')
 
-        equacao = equacao.replace("^", "**")
+        equacao = limpar_equacao(equacao) 
         expressao = parse_expr(equacao, transformations=transformations)
 
-        resultado = integrate(expressao, x)
+        # Se a e b existirem e não forem vazios, faz a definida
+        if a and b and a.strip() != "" and b.strip() != "":
+            resultado = integrate(expressao, (x, sympify(a), sympify(b)))
+        else:
+            # Senão, faz a indefinida
+            resultado = integrate(expressao, x)
 
         return {
             "status": "sucesso",
@@ -97,7 +109,7 @@ def resolver_limite(equacao: str, ponto: str):
     try:
         x = symbols('x')
 
-        equacao = equacao.replace("^", "**")
+        equacao = limpar_equacao(equacao) 
         expressao = parse_expr(equacao, transformations=transformations)
 
         from sympy import simplify
@@ -121,7 +133,7 @@ def explorar(equacao: str):
     try:
         x = symbols('x')
 
-        equacao = equacao.replace("^", "**")
+        equacao = limpar_equacao(equacao) 
         expressao = parse_expr(equacao, transformations=transformations)
 
         # 1. derivada e segunda derivada
