@@ -65,10 +65,13 @@ def resolver_derivada(equacao: str):
                 y_clean.append(yi)
                 y_deriv_clean.append(ydi)
 
+        original_latex = latex(expressao).replace(r'\log', r'\ln')
+        derivada_latex = latex(derivada).replace(r'\log', r'\ln')
+
         return {
             "status": "sucesso",
-            "original": latex(expressao),
-            "derivada": latex(derivada),
+            "original": original_latex,
+            "derivada": derivada_latex,
             "x": x_clean,
             "y": y_clean,
             "y_deriv": y_deriv_clean
@@ -92,10 +95,13 @@ def resolver_integral(equacao: str, a: str = None, b: str = None):
             # Senão, faz a indefinida
             resultado = integrate(expressao, x)
 
+        resultado_latex = latex(resultado).replace(r'\log', r'\ln')
+        original_latex = latex(expressao).replace(r'\log', r'\ln')
+
         return {
             "status": "sucesso",
-            "original": latex(expressao),
-            "resultado": latex(resultado)
+            "original": original_latex,
+            "resultado": resultado_latex
         }
 
     except Exception as e:
@@ -116,10 +122,13 @@ def resolver_limite(equacao: str, ponto: str):
 
         resultado = limit(expressao, x, ponto)
 
+        original_latex = latex(expressao).replace(r'\log', r'\ln')
+        resultado_latex = latex(resultado).replace(r'\log', r'\ln')
+
         return {
             "status": "sucesso",
-            "original": latex(expressao),
-            "resultado": latex(resultado)
+            "original": original_latex,
+            "resultado": resultado_latex
         }
 
     except Exception as e:
