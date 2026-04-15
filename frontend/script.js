@@ -51,7 +51,7 @@ async function calcular() {
 
     try {
         const resposta = await fetch(
-            `http://127.0.0.1:8000/resolver?equacao=${encodeURIComponent(equacao)}`
+            `https://projeto-calculo.onrender.com/resolver?equacao=${encodeURIComponent(equacao)}`
         );
 
         const dados = await resposta.json();
@@ -147,7 +147,7 @@ async function integrar() {
 
     try {
         const resposta = await fetch(
-            `http://127.0.0.1:8000/integrar?equacao=${encodeURIComponent(equacao)}`
+            `https://projeto-calculo.onrender.com/integrar?equacao=${encodeURIComponent(equacao)}`
         );
 
         const dados = await resposta.json();
@@ -187,7 +187,7 @@ async function calcularLimite() {
     divResultado.innerText = "Calculando...";
 
     try {
-        const resposta = await fetch(`http://127.0.0.1:8000/limite?equacao=${encodeURIComponent(equacao)}&ponto=${ponto}`)
+        const resposta = await fetch(`https://projeto-calculo.onrender.com/limite?equacao=${encodeURIComponent(equacao)}&ponto=${ponto}`)
 
         const dados = await resposta.json();
 
@@ -242,7 +242,7 @@ async function explorar() {
 
     try {
         const resposta = await fetch(
-            `http://127.0.0.1:8000/explorar?equacao=${encodeURIComponent(equacao)}`
+            `https://projeto-calculo.onrender.com/explorar?equacao=${encodeURIComponent(equacao)}`
         );
 
         const dados = await resposta.json();
