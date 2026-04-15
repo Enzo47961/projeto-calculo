@@ -185,13 +185,13 @@ def explorar(equacao: str):
         return {
             "status": "sucesso",
 
-            "funcao": latex(expressao),
-            "derivada": latex(f1),
-            "segunda_derivada": latex(f2),
+            "funcao": latex(expressao).replace(r'\log', r'\ln'),
+            "derivada": latex(f1).replace(r'\log', r'\ln'),
+            "segunda_derivada": latex(f2).replace(r'\log', r'\ln'),
 
-            "raizes": [latex(r) for r in raizes],
+            "raizes": [latex(r).replace(r'\log', r'\ln') for r in raizes],
             "raizes_num": raizes_num,
-            "criticos": [latex(c) for c in criticos],
+            "criticos": [latex(c).replace(r'\log', r'\ln') for c in criticos],
 
             "pontos_criticos": pontos_criticos,
 
@@ -200,6 +200,7 @@ def explorar(equacao: str):
             "x": list(x_vals),
             "y": y_vals
         }
+
 
     except Exception as e:
         return {"status": "erro", "mensagem": str(e)}

@@ -1,96 +1,66 @@
-# 📊 Calcly - Calculadora de Cálculo com FastAPI + Frontend
+📊 Calcly - Calculadora de Cálculo com FastAPI + Frontend
+Projeto web que resolve e visualiza conceitos de Cálculo Diferencial e Integral.
 
-Projeto web que resolve e visualiza conceitos de Cálculo Diferencial e Integral, incluindo:
+🚀 Tecnologias usadas
 
-- Derivadas
-- Integrais
-- Limites
-- Análise de funções (raízes, pontos críticos, máximos e mínimos)
-- Gráficos interativos
+Backend
+FastAPI: Framework web moderno e rápido.
+SymPy: Biblioteca para matemática simbólica (o "cérebro" dos cálculos).
+NumPy: Para processamento numérico dos gráficos.
+Uvicorn: Servidor ASGI para rodar o backend.
 
----
+Frontend
+HTML5/CSS3: Interface responsiva e moderna.
+JavaScript (Vanilla): Lógica de integração e manipulação do DOM.
+Plotly.js: Renderização de gráficos interativos.
+MathJax: Exibição de fórmulas matemáticas elegantes (LaTeX).
 
-## 🚀 Tecnologias usadas
+⚙️ Como rodar o projeto localmente
 
-### Backend
+1. Clone o repositório
+   bash
+   git clone https://github.com
+   cd projeto-calculo
+   Use o código com cuidado.
 
-- FastAPI
-- SymPy
-- NumPy
-- Uvicorn
+2. Prepare o ambiente
+   bash
 
-### Frontend
+# Criar ambiente virtual
 
-- HTML5
-- CSS3
-- JavaScript
-- Plotly.js
-- MathJax
+python -m venv .venv
 
----
-
-## ⚙️ Como rodar o projeto
-
-### 1. Clone o repositório
-
-```bash
-git clone https://github.com/seu-usuario/calcly.git
-cd calcly
-```
-
-2. Crie o ambiente virtual
-   python -m venv .venv
-
-Ative:
-
-Windows:
+# Ativar (Windows)
 
 .venv\Scripts\activate
 
-3. Instale as dependências
-   pip install -r requirements.txt
+# Instalar dependências
 
-4. Rode o backend
+pip install -r backend/requirements.txt
+Use o código com cuidado.
 
-Entre na pasta backend:
+3. Rode o backend
+   bash
+   uvicorn backend.main:app --reload
+   Use o código com cuidado.
+   O servidor estará em: http://127.0.0.1:8000
 
-cd backend
-uvicorn main:app --reload
-
-Servidor:
-
-http://127.0.0.1:8000 5. Rode o frontend
-
-Abra o arquivo:
-
-frontend/index.html
-
-Ou use Live Server no VSCode.
+4. Rode o frontend
+   Abra o arquivo frontend/index.html diretamente no navegador ou use a extensão Live Server do VS Code.
 
 📡 Endpoints da API
-Derivada
-GET /resolver/{equacao}
+Derivada: GET /resolver?equacao=x^2
+Integral: GET /integrar?equacao=x^2&a=0&b=5 (suporta definida e indefinida)
+Limite: GET /limite?equacao=x^2&ponto=2
+Exploração: GET /explorar?equacao=x^2
 
-Integral
-GET /integrar/{equacao}
-
-Limite
-GET /limite?equacao=...&ponto=...
-
-Exploração de função
-GET /explorar/{equacao}
-
-📈 Exemplo de entrada
+📈 Exemplos de Entrada Suportados
+O sistema aceita notação matemática comum graças à limpeza automática de strings:
 x^2 + 5x
-sin(x)/x
-(e^(x^2) * cos(3*x)) / ln(x^2 + 1)
-
-⚠️ Observações
-Use ^ para potências (convertido automaticamente para \*\*)
-Algumas funções precisam de forma compatível com SymPy (exp, ln, etc.)
+sen(x)/x
+e^(x^2) * cos(3*x)
+sqrt(x)
 
 👨‍💻 Autor
-
 Enzo Ferrara
-
-Projeto educacional focado em cálculo e visualização matemática.
+Projeto educacional focado em automação de cálculo e visualização de dados matemáticos.
