@@ -1,11 +1,12 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from sympy import symbols, diff, sympify, solve
+from sympy import symbols, diff, sympify, solve, simplify
 from sympy.parsing.sympy_parser import (parse_expr, standard_transformations, implicit_multiplication_application)
 import numpy as np
 from sympy import integrate
 from sympy import limit
 from sympy import latex
+import os
 
 def safe_eval(expr, x, val):
     try:
@@ -26,10 +27,7 @@ app = FastAPI()
 # --- ESSAS LINHAS LIBERAM O ACESSO ---
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://127.0.0.1:5500",
-        "http://localhost:5500"
-    ],
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -187,3 +185,9 @@ def explorar(equacao: str):
 
     except Exception as e:
         return {"status": "erro", "mensagem": str(e)}
+    
+if __name__ == "__main__":
+    import uvicorn
+    # O Render define a porta automaticamente na variável PORT
+    port = int(os.environ.get("PORT", 10000))
+    uvicorn.run(app, host="0.0.0.0", port=port)
