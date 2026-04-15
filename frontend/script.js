@@ -51,7 +51,7 @@ async function calcular() {
 
     try {
         const resposta = await fetch(
-            `http://127.0.0.1:8000/resolver/${encodeURIComponent(equacao)}`
+            `http://127.0.0.1:8000/resolver?equacao=${encodeURIComponent(equacao)}`
         );
 
         const dados = await resposta.json();
@@ -147,7 +147,7 @@ async function integrar() {
 
     try {
         const resposta = await fetch(
-            `http://127.0.0.1:8000/integrar/${encodeURIComponent(equacao)}`
+            `http://127.0.0.1:8000/integrar?equacao=${encodeURIComponent(equacao)}`
         );
 
         const dados = await resposta.json();
@@ -242,7 +242,7 @@ async function explorar() {
 
     try {
         const resposta = await fetch(
-            `http://127.0.0.1:8000/explorar/${encodeURIComponent(equacao)}`
+            `http://127.0.0.1:8000/explorar?equacao=${encodeURIComponent(equacao)}`
         );
 
         const dados = await resposta.json();
