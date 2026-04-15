@@ -167,14 +167,13 @@ async function integrar() {
         const dados = await resposta.json();
 
         if (dados.status === "sucesso") {
-
-            // Se houver limites, mostramos o símbolo da integral definida
-            let simboloIntegral = (a && b) ? `\\int_{${a}}^{${b}}` : `\\int`;
+            // Se houver limites, usamos o símbolo da definida, senão o da indefinida
+            let simboloIntegral = (a !== "" && b !== "") ? `\\int_{${a}}^{${b}}` : `\\int`;
 
             divResultado.innerHTML = `
             <div>
                 <p><strong>Integral:</strong></p>
-                <p>\\(\\int ${dados.original} \\, dx = ${dados.resultado}\\)</p>
+                <p>\\(${simboloIntegral} ${dados.original} \\, dx = ${dados.resultado}\\)</p>
             </div>
             `;
             MathJax.typesetPromise([divResultado]);

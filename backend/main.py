@@ -1,11 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from sympy import symbols, diff, sympify, solve, simplify
+from sympy import symbols, diff, sympify, solve, simplify, integrate, limit, latex
 from sympy.parsing.sympy_parser import (parse_expr, standard_transformations, implicit_multiplication_application)
 import numpy as np
-from sympy import integrate
-from sympy import limit
-from sympy import latex
 import os
 
 def safe_eval(expr, x, val):
