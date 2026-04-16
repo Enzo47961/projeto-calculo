@@ -1,6 +1,10 @@
 📊 Calcly - Calculadora de Cálculo com FastAPI + Frontend
 Projeto web que resolve e visualiza conceitos de Cálculo Diferencial e Integral.
 
+## 🌍 Link do Projeto
+
+Acesse agora: [https://projeto-calculo.vercel.app](https://projeto-calculo.vercel.app)
+
 🚀 Tecnologias usadas
 
 Backend

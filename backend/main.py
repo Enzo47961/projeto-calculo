@@ -31,10 +31,12 @@ app.add_middleware(
 )
 # -------------------------------------
 def limpar_equacao(equacao: str):
-    # Transforma em minúsculo (resolve o X maiúsculo)
-    # Troca "sen" por "sin"
-    # Troca "^" por "**"
-    return equacao.lower().replace("sen", "sin").replace("^", "**")
+    return equacao.lower() \
+        .replace("sen", "sin") \
+        .replace("tg", "tan") \
+        .replace("cossec", "csc") \
+        .replace("cotg", "cot") \
+        .replace("^", "**")
 
 
 
