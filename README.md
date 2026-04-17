@@ -3,7 +3,7 @@ Projeto web que resolve e visualiza conceitos de Cálculo Diferencial e Integral
 
 ## 🌍 Link do Projeto
 
-Acesse agora: projeto-calculo.vercel.app
+Acesse agora: https://projeto-calculo.vercel.app/
 
 🚀 Tecnologias usadas
 
